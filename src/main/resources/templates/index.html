@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>  
+    <body>  
+      
+    <!--单个取值-->  
+    <div>  
+        	姓名：<span th:text="${customer.name}"></span><br/>  
+        	年龄：<span th:text="${customer.industry}"></span>  
+    </div>  
+      
+    <br/>  
+    <br/>  
+      
+    ***************************************  
+      
+    <!--list取值-->  
+    <div th:each="customer:${customerList}">  
+        姓名：<span th:text="${customer.name}"></span><br/>  
+        年龄：<span th:text="${customer.industry}"></span><br/>  
+        ------------------------------------  
+    </div>  
+      
+    </body>  
+      
+    <script th:inline="javascript">  
+      
+        var customer = [[${customer}]];  
+      
+        console.log(customer.name + "/" + customer.industry);  
+      
+      
+    </script>  
+      
+    </html>  

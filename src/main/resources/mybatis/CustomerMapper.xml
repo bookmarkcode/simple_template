@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mylesoft.crm.mapper.CustomerMapper">
+	<resultMap id="customerRM" type="com.mylesoft.crm.pojo.CustomerDO">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="industry" column="industry" />
+		<result property="rating" column="rating" />
+		<result property="cityId" column="city_id" />
+		<result property="ownerUserId" column="owner_user_id" />
+		<result property="create_dt" column="create_dt" />
+		<result property="createUserId" column="create_user_id" />
+		<result property="deleted" column="deleted" />
+		<result property="locked" column="locked" />
+		<result property="updUserId" column="upd_user_id" />
+		<result property="upd_dt" column="upd_dt" />
+	</resultMap>
+
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.mylesoft.crm.pojo.CustomerDO">
+		<selectKey resultType="Integer" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO mlscrm_customer(name,industry,rating,city_id,owner_user_id,create_dt,create_user_id,deleted,locked, upd_user_id)
+		VALUES(#{name}, #{industry},#{rating},#{cityId}, #{ownerUserId} ,now(), #{createUserId},#{deleted},#{locked},  #{updUserId})
+	</insert>
+
+	<select id="list" resultMap="customerRM">
+		select id, name,industry,rating,city_id,owner_user_id,create_dt,create_user_id,deleted,locked, upd_user_id,upd_dt
+		from mlscrm_customer
+	</select>
+
+	<select id="get" parameterType="int" resultMap="customerRM">
+		select id, name,industry,rating,city_id,owner_user_id,create_dt,create_user_id,deleted,locked, upd_user_id,upd_dt 
+		from mlscrm_customer where id=#{id}
+	</select>
+
+
+	<insert id="insertBatch" useGeneratedKeys="true" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO mlscrm_customer(name,industry,rating,city_id,owner_user_id,create_dt,create_user_id,deleted,locked, upd_user_id)
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.name}, #{item.industry},#{item.rating},#{item.cityId}, #{item.ownerUserId} ,now(), #{item.createUserId},#{item.deleted},#{item.locked},  #{item.updUserId})
+		</foreach>
+	</insert>
+
+	<update id="update" parameterType="com.mylesoft.crm.pojo.CustomerDO">
+		UPDATE mlscrm_customer SET name=#{name},industry=#{industry},rating=#{rating},city_id=#{cityId},owner_user_id=#{ownerUserId},deleted=#{deleted},locked=#{locked}, upd_user_id=#{updUserId}
+		WHERE
+		id=#{id}
+	</update>
+</mapper>
