@@ -37,7 +37,10 @@ public class PageController {
     }  
     
    
-  
+    @RequestMapping("/topnav")  
+    public String topnav(){  
+        return "top-nav";  
+    }
   
     /** 
      * 跳转 
